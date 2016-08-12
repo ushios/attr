@@ -36,7 +36,7 @@ func TestKeyDiff(t *testing.T) {
 			SampleKeyHolder{KeyList: target},
 		)
 
-		if reflect.DeepEqual(res, e) {
+		if !reflect.DeepEqual(res, e) {
 			t.Errorf("(%s) diff (%s) expected (%v) but (%v)", base, target, e, res)
 		}
 
