@@ -1,42 +1,45 @@
 package attr
 
-import "sync"
-
-// Entity is object
-type Entity struct {
-	mu   sync.Mutex
-	data map[interface{}]interface{}
+// KeyHolder has keys
+type KeyHolder interface {
+	Keys() []string
 }
 
-// NewEntity create entity
-func NewEntity() *Entity {
-	return &Entity{
-		data: map[interface{}]interface{}{},
+// KeyValuer return valuer from key
+type KeyValuer interface {
+	KeyValue(string) interface{}
+}
+
+// KeyEquals key check function
+func KeyEquals(str1, str2 string) bool {
+	return (str1 == str2)
+}
+
+// KeyExists check the KeyHolder have key or not
+func KeyExists(kh KeyHolder, key string) bool {
+	for _, k := range kh.Keys() {
+		if KeyEquals(k, key) {
+			return true
+		}
 	}
+
+	return false
 }
 
-func (e *Entity) get(key interface{}) (interface{}, bool) {
-	e.mu.Lock()
-	defer e.mu.Unlock()
+// KeyDiff Check key diff
+func KeyDiff(base, target KeyHolder) map[string]bool {
+	res := map[string]bool{}
+	baseKeys := base.Keys()
 
-	d, ok := e.data[key]
-	if !ok {
-		return nil, false
+	for _, k := range baseKeys {
+		res[k] = KeyExists(target, k)
+
 	}
 
-	return d, true
+	return res
 }
 
-func (e *Entity) set(key interface{}, value interface{}) {
-	e.mu.Lock()
-	defer e.mu.Unlock()
-
-}
-
-// Exists check the key existence
-func (e *Entity) Exists(key interface{}) bool {
-	e.mu.Lock()
-	defer e.mu.Unlock()
-	_, ok := e.data[key]
-	return ok
-}
+// KeyMerge merge keys
+// func KeyMerge(base, target KeyHolder) []string {
+//
+// }
