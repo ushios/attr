@@ -54,3 +54,18 @@ func TestKeyDiff(t *testing.T) {
 		"c": true,
 	})
 }
+
+func TestKeyMerge(t *testing.T) {
+	test := func(base, target, e []string) {
+		b := SampleKeyHolder{KeyList: base}
+		tgt := SampleKeyHolder{KeyList: target}
+
+		merged := KeyMerge(b, tgt)
+
+		if !reflect.DeepEqual(e, merged) {
+			t.Errorf("merge (%s) and (%s) expected (%s) but (%s)", base, target, e, merged)
+		}
+	}
+
+	test([]string{"a", "b", "c"}, []string{"b", "d"}, []string{"a", "b", "c", "d"})
+}

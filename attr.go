@@ -40,6 +40,14 @@ func KeyDiff(base, target KeyHolder) map[string]bool {
 }
 
 // KeyMerge merge keys
-// func KeyMerge(base, target KeyHolder) []string {
-//
-// }
+func KeyMerge(base, target KeyHolder) []string {
+	res := base.Keys()
+
+	for _, k := range target.Keys() {
+		if !KeyExists(base, k) {
+			res = append(res, k)
+		}
+	}
+
+	return res
+}
