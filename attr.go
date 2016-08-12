@@ -1,22 +1,27 @@
 package attr
 
+// Keyer is attr key
+type Keyer interface {
+	Name() string
+}
+
 // KeyHolder has keys
 type KeyHolder interface {
-	Keys() []string
+	Keys() []Keyer
 }
 
 // KeyValuer return valuer from key
 type KeyValuer interface {
-	KeyValue(string) interface{}
+	KeyValue(Keyer) interface{}
 }
 
 // KeyEquals key check function
-func KeyEquals(str1, str2 string) bool {
-	return (str1 == str2)
+func KeyEquals(str1, str2 Keyer) bool {
+	return (str1.Name() == str2.Name())
 }
 
 // KeyExists check the KeyHolder have key or not
-func KeyExists(kh KeyHolder, key string) bool {
+func KeyExists(kh KeyHolder, key Keyer) bool {
 	for _, k := range kh.Keys() {
 		if KeyEquals(k, key) {
 			return true
@@ -27,8 +32,8 @@ func KeyExists(kh KeyHolder, key string) bool {
 }
 
 // KeyDiff Check key diff
-func KeyDiff(base, target KeyHolder) map[string]bool {
-	res := map[string]bool{}
+func KeyDiff(base, target KeyHolder) map[Keyer]bool {
+	res := map[Keyer]bool{}
 	baseKeys := base.Keys()
 
 	for _, k := range baseKeys {
@@ -40,7 +45,7 @@ func KeyDiff(base, target KeyHolder) map[string]bool {
 }
 
 // KeyMerge merge keys
-func KeyMerge(base, target KeyHolder) []string {
+func KeyMerge(base, target KeyHolder) []Keyer {
 	res := base.Keys()
 
 	for _, k := range target.Keys() {

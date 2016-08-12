@@ -5,20 +5,36 @@ import (
 	"testing"
 )
 
+// SampleKey key
+type SampleKey struct {
+	name string
+}
+
+// Name return name
+func (s SampleKey) Name() string {
+	return s.name
+}
+
 type SampleKeyHolder struct {
 	KeyList []string
 }
 
 // Keys return key list
-func (s SampleKeyHolder) Keys() []string {
-	return s.KeyList
+func (s SampleKeyHolder) Keys() []Keyer {
+	ks := []Keyer{}
+
+	for _, k := range s.KeyList {
+		ks = append(ks, SampleKey{name: k})
+	}
+
+	return ks
 }
 
 func TestKeyExists(t *testing.T) {
 	test := func(keys []string, checkStr string, e bool) {
 		kh := SampleKeyHolder{KeyList: keys}
 
-		res := KeyExists(kh, checkStr)
+		res := KeyExists(kh, SampleKey{name: checkStr})
 		if res != e {
 			t.Errorf("(%s) key exists (%s) result expected (%t) but (%t)", keys, checkStr, e, res)
 		}
@@ -30,7 +46,7 @@ func TestKeyExists(t *testing.T) {
 }
 
 func TestKeyDiff(t *testing.T) {
-	test := func(base, target []string, e map[string]bool) {
+	test := func(base, target []string, e map[Keyer]bool) {
 		res := KeyDiff(
 			SampleKeyHolder{KeyList: base},
 			SampleKeyHolder{KeyList: target},
@@ -42,21 +58,21 @@ func TestKeyDiff(t *testing.T) {
 
 	}
 
-	test([]string{"a", "b", "c"}, []string{"a", "b"}, map[string]bool{
-		"a": true,
-		"b": true,
-		"c": false,
+	test([]string{"a", "b", "c"}, []string{"a", "b"}, map[Keyer]bool{
+		SampleKey{name: "a"}: true,
+		SampleKey{name: "b"}: true,
+		SampleKey{name: "c"}: false,
 	})
 
-	test([]string{"a", "b", "c"}, []string{"a", "b", "c", "d"}, map[string]bool{
-		"a": true,
-		"b": true,
-		"c": true,
+	test([]string{"a", "b", "c"}, []string{"a", "b", "c", "d"}, map[Keyer]bool{
+		SampleKey{name: "a"}: true,
+		SampleKey{name: "b"}: true,
+		SampleKey{name: "c"}: true,
 	})
 }
 
 func TestKeyMerge(t *testing.T) {
-	test := func(base, target, e []string) {
+	test := func(base, target []string, e []Keyer) {
 		b := SampleKeyHolder{KeyList: base}
 		tgt := SampleKeyHolder{KeyList: target}
 
@@ -67,5 +83,12 @@ func TestKeyMerge(t *testing.T) {
 		}
 	}
 
-	test([]string{"a", "b", "c"}, []string{"b", "d"}, []string{"a", "b", "c", "d"})
+	test([]string{"a", "b", "c"}, []string{"b", "d"},
+		[]Keyer{
+			SampleKey{name: "a"},
+			SampleKey{name: "b"},
+			SampleKey{name: "c"},
+			SampleKey{name: "d"},
+		},
+	)
 }
