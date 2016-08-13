@@ -9,7 +9,11 @@ import (
 // empty: "", 0, nil,
 func IsEmpty(v interface{}) bool {
 	r := reflect.ValueOf(v)
+
 	switch r.Kind() {
+	case reflect.Int:
+		i := v.(int)
+		return IntIsEmpty(int64(i))
 	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		return IntIsEmpty(v.(int64))
 	case reflect.Float32, reflect.Float64:
@@ -18,9 +22,11 @@ func IsEmpty(v interface{}) bool {
 		return StringIsEmpty(v.(string))
 	case reflect.Slice:
 		return SliceIsEmpty(v)
+	case reflect.Invalid:
+		return InvalidIsEmpty(v)
 	}
 
-	return true
+	panic(fmt.Sprintf("we have no case for (%v: %v) ", r.Kind(), v))
 }
 
 // IntIsEmpty check the int is empty or not
@@ -64,4 +70,13 @@ func SliceIsEmpty(v interface{}) bool {
 	}
 
 	panic(fmt.Sprintf("%v is not slice", v))
+}
+
+// InvalidIsEmpty check the invalid value is empty or not
+func InvalidIsEmpty(v interface{}) bool {
+	if v == nil {
+		return true
+	}
+
+	return false
 }
