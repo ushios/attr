@@ -1,6 +1,9 @@
 package attr
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 // IsEmpty check the value is empty or not
 // empty: "", 0, nil,
@@ -53,14 +56,12 @@ func SliceIsEmpty(v interface{}) bool {
 	r := reflect.ValueOf(v)
 	switch r.Kind() {
 	case reflect.Slice:
-
-		if len(v.([]interface{})) == 0 {
+		if r.Len() == 0 {
 			return true
 		}
 
 		return false
-
 	}
 
-	return false
+	panic(fmt.Sprintf("%v is not slice", v))
 }

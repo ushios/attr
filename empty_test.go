@@ -53,4 +53,6 @@ func TestSliceIsEmpty(t *testing.T) {
 	}
 
 	test([]string{}, true)
+	test([]string{"a"}, false)
+	test([]int{1}, false)
 }
