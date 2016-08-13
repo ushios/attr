@@ -10,11 +10,6 @@ type KeyHolder interface {
 	Keys() []Keyer
 }
 
-// KeyValuer return valuer from key
-type KeyValuer interface {
-	KeyValue(Keyer) interface{}
-}
-
 // KeyEquals key check function
 func KeyEquals(str1, str2 Keyer) bool {
 	return (str1.Name() == str2.Name())
