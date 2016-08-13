@@ -16,6 +16,7 @@ func TestIsEmpty(t *testing.T) {
 	test(-1, false)
 	test("", true)
 	test("hoge", false)
+	test(123456789123456789, false)
 	test(0.0, true)
 	test(0.1, false)
 	test(0.0000001, false)
@@ -78,6 +79,7 @@ func TestSliceIsEmpty(t *testing.T) {
 	test([]string{}, true)
 	test([]string{"a"}, false)
 	test([]int{1}, false)
+	test(nil, true)
 
 	var s []int
 	test(s, true)
