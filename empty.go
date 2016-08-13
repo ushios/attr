@@ -13,6 +13,8 @@ func IsEmpty(v interface{}) bool {
 		return FloatIsEmpty(v.(float64))
 	case reflect.String:
 		return StringIsEmpty(v.(string))
+	case reflect.Slice:
+		return SliceIsEmpty(v)
 	}
 
 	return true
@@ -40,4 +42,25 @@ func FloatIsEmpty(v float64) bool {
 		return false
 	}
 	return true
+}
+
+// SliceIsEmpty check the slice is empty or not
+func SliceIsEmpty(v interface{}) bool {
+	if v == nil {
+		return true
+	}
+
+	r := reflect.ValueOf(v)
+	switch r.Kind() {
+	case reflect.Slice:
+
+		if len(v.([]interface{})) == 0 {
+			return true
+		}
+
+		return false
+
+	}
+
+	return false
 }

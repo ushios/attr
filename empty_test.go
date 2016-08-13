@@ -42,3 +42,15 @@ func TestFloatIsEmpty(t *testing.T) {
 	test(0.1, false)
 	test(0.0000001, false)
 }
+
+func TestSliceIsEmpty(t *testing.T) {
+	test := func(v interface{}, e bool) {
+		res := SliceIsEmpty(v)
+
+		if res != e {
+			t.Errorf("(%v) expected empty (%t) but (%t)", v, e, res)
+		}
+	}
+
+	test([]string{}, true)
+}
