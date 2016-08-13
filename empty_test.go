@@ -55,4 +55,8 @@ func TestSliceIsEmpty(t *testing.T) {
 	test([]string{}, true)
 	test([]string{"a"}, false)
 	test([]int{1}, false)
+	test(nil, true)
+
+	var s []int
+	test(s, true)
 }
