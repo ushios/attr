@@ -5,6 +5,24 @@ type Keyer interface {
 	Name() string
 }
 
+// Keyers is Keyer list
+type Keyers []Keyer
+
+// Len for sort
+func (k Keyers) Len() int {
+	return len(k)
+}
+
+// Swap for sort
+func (k Keyers) Swap(i, j int) {
+	k[i], k[j] = k[j], k[i]
+}
+
+// Less for sort
+func (k Keyers) Less(i, j int) bool {
+	return k[i].Name() < k[j].Name()
+}
+
 // KeyHolder has keys
 type KeyHolder interface {
 	Keys() []Keyer
@@ -50,4 +68,21 @@ func KeyMerge(base, target KeyHolder) []Keyer {
 	}
 
 	return res
+}
+
+// Key is attribute key
+type Key struct {
+	name string
+}
+
+// NewKey create Key object
+func NewKey(name string) Key {
+	return Key{
+		name: name,
+	}
+}
+
+// Name return name
+func (k Key) Name() string {
+	return k.name
 }
