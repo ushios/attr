@@ -25,7 +25,7 @@ func (k KeyerList) Less(i, j int) bool {
 
 // KeyHolder has keys
 type KeyHolder interface {
-	Keys() []Keyer
+	Keys() KeyerList
 }
 
 // KeyEquals key check function

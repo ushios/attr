@@ -20,7 +20,7 @@ type SampleKeyHolder struct {
 }
 
 // Keys return key list
-func (s SampleKeyHolder) Keys() []Keyer {
+func (s SampleKeyHolder) Keys() KeyerList {
 	ks := []Keyer{}
 
 	for _, k := range s.KeyList {
