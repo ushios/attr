@@ -14,6 +14,8 @@ func TestIsEmpty(t *testing.T) {
 	test(0, true)
 	test(1, false)
 	test(-1, false)
+	test(int64(0), true)
+	test(int(1), false)
 	test("", true)
 	test("hoge", false)
 	test(123456789123456789, false)
