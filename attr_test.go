@@ -10,8 +10,8 @@ func TestAttributesKeys(t *testing.T) {
 	test := func(a Attributes, ek []Keyer) {
 		list := a.Keys()
 
-		sort.Sort(Keyers(ek))
-		sort.Sort(Keyers(list))
+		sort.Sort(KeyerList(ek))
+		sort.Sort(KeyerList(list))
 
 		if !reflect.DeepEqual(list, ek) {
 			t.Errorf("Attribute keys expected (%v) but (%v)", ek, list)

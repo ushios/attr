@@ -5,21 +5,21 @@ type Keyer interface {
 	Name() string
 }
 
-// Keyers is Keyer list
-type Keyers []Keyer
+// KeyerList is Keyer list
+type KeyerList []Keyer
 
 // Len for sort
-func (k Keyers) Len() int {
+func (k KeyerList) Len() int {
 	return len(k)
 }
 
 // Swap for sort
-func (k Keyers) Swap(i, j int) {
+func (k KeyerList) Swap(i, j int) {
 	k[i], k[j] = k[j], k[i]
 }
 
 // Less for sort
-func (k Keyers) Less(i, j int) bool {
+func (k KeyerList) Less(i, j int) bool {
 	return k[i].Name() < k[j].Name()
 }
 
