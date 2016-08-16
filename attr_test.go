@@ -7,10 +7,10 @@ import (
 )
 
 func TestAttributesKeys(t *testing.T) {
-	test := func(a KeyHolder, ek []Keyer) {
+	test := func(a KeyHolder, ek KeyerList) {
 		list := a.Keys()
 
-		sort.Sort(KeyerList(ek))
+		sort.Sort(ek)
 		sort.Sort(list)
 
 		if !reflect.DeepEqual(list, ek) {
