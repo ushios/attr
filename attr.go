@@ -4,7 +4,7 @@ package attr
 type Attributes map[Keyer]interface{}
 
 // Keys return all of key list
-func (a *Attributes) Keys() (list []Keyer) {
+func (a *Attributes) Keys() (list KeyerList) {
 	for k := range *a {
 		list = append(list, k)
 	}

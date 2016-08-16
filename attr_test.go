@@ -7,11 +7,11 @@ import (
 )
 
 func TestAttributesKeys(t *testing.T) {
-	test := func(a Attributes, ek []Keyer) {
+	test := func(a KeyHolder, ek []Keyer) {
 		list := a.Keys()
 
 		sort.Sort(KeyerList(ek))
-		sort.Sort(KeyerList(list))
+		sort.Sort(list)
 
 		if !reflect.DeepEqual(list, ek) {
 			t.Errorf("Attribute keys expected (%v) but (%v)", ek, list)
@@ -22,5 +22,5 @@ func TestAttributesKeys(t *testing.T) {
 	a1[NewKey("hoge")] = "hoge"
 	a1[NewKey("fuga")] = "fuga"
 
-	test(a1, []Keyer{NewKey("hoge"), NewKey("fuga")})
+	test(&a1, []Keyer{NewKey("hoge"), NewKey("fuga")})
 }
