@@ -71,6 +71,31 @@ func TestKeyDiff(t *testing.T) {
 	})
 }
 
+func TestKeyCommon(t *testing.T) {
+	test := func(base, target []string, e []Keyer) {
+		res := KeyCommon(
+			SampleKeyHolder{KeyList: base},
+			SampleKeyHolder{KeyList: target},
+		)
+
+		if !reflect.DeepEqual(res, e) {
+			t.Errorf("(%s) diff (%s) expected (%v) but (%v)", base, target, e, res)
+		}
+
+	}
+
+	test([]string{"a", "b", "c"}, []string{"a", "b"}, []Keyer{
+		SampleKey{name: "a"},
+		SampleKey{name: "b"},
+	})
+
+	test([]string{"a", "b", "c"}, []string{"a", "b", "c", "d"}, []Keyer{
+		SampleKey{name: "a"},
+		SampleKey{name: "b"},
+		SampleKey{name: "c"},
+	})
+}
+
 func TestKeyMerge(t *testing.T) {
 	test := func(base, target []string, e []Keyer) {
 		b := SampleKeyHolder{KeyList: base}

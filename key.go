@@ -70,6 +70,19 @@ func KeyMerge(base, target KeyHolder) []Keyer {
 	return res
 }
 
+// KeyCommon get common key
+func KeyCommon(base, target KeyHolder) []Keyer {
+	res := []Keyer{}
+
+	for _, k := range target.Keys() {
+		if KeyExists(base, k) {
+			res = append(res, k)
+		}
+	}
+
+	return res
+}
+
 // Key is attribute key
 type Key struct {
 	name string
